@@ -1,0 +1,23 @@
+{
+  "name": "DnsFilter",
+  "version": "1.0.0",
+  "description": "Filter DNS requests",
+  "main": "./src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-ts": "tsc"
+  },
+  "author": "Konrad Schmid",
+  "license": "ISC",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "dns-packet": "^5.2.1",
+    "eslint": "^7.11.0",
+    "typescript": "^4.1.3",
+    "typescript-tslint-plugin": "^0.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.2"
+  }
+}
