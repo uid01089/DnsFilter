@@ -517,7 +517,7 @@
         "affectsGlobalScope": false
       },
       "../src_ts/dnsfilter.ts": {
-        "version": "d5b3c9151fb0d043faaf66ff651faff4c729b6d3c5280e8859809b8733d55555",
+        "version": "754a2db312f3b5d5d98805aeef34a700bccb35359768c822cab54fd480ce984a",
         "signature": "39c77c7a5cc52b5ba3a3fdc84cb55c08fc59b1b31155bca32d14cb33032ca49a",
         "affectsGlobalScope": false
       },

@@ -95,7 +95,7 @@ class DnsFilter {
             const sock = dgram.createSocket('udp4');
 
             sock.send(message, 0, message.length, this.config.UpstreamServer.Port, this.config.UpstreamServer.Address, () => {
-                console.log();
+                //console.log();
             });
 
             sock.on('error', (err) => {
@@ -104,7 +104,7 @@ class DnsFilter {
             });
 
             sock.on('message', (response) => {
-                console.log(dnsPacket.decode(response));
+                //console.log(dnsPacket.decode(response));
                 sock.close();
                 resolve(response);
             });

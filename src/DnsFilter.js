@@ -73,14 +73,14 @@ class DnsFilter {
             return new Promise((resolve, reject) => {
                 const sock = dgram_1.default.createSocket('udp4');
                 sock.send(message, 0, message.length, this.config.UpstreamServer.Port, this.config.UpstreamServer.Address, () => {
-                    console.log();
+                    //console.log();
                 });
                 sock.on('error', (err) => {
                     console.error(err);
                     reject(err);
                 });
                 sock.on('message', (response) => {
-                    console.log(dnsPacket.decode(response));
+                    //console.log(dnsPacket.decode(response));
                     sock.close();
                     resolve(response);
                 });
