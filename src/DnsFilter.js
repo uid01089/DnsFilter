@@ -40,12 +40,13 @@ class DnsFilter {
             //console.log(dnsPacket.decode(message));
             const dnsPack = dnsPacket.decode(message);
             const askedHost = dnsPack.questions[0].name;
-            console.log(`${rinfo.address} requests ${askedHost}`);
             let response;
             if (this.patternMatcher.isBlocked(askedHost, rinfo.address)) {
+                console.log(`${rinfo.address} requests ${askedHost} but blocked`);
                 response = this.blockMessage(message);
             }
             else {
+                console.log(`${rinfo.address} requests ${askedHost}`);
                 response = yield this.forwardToUpstream(message);
             }
             server.send(response, 0, response.length, rinfo.port, rinfo.address);

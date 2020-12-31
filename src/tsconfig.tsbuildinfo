@@ -517,7 +517,7 @@
         "affectsGlobalScope": false
       },
       "../src_ts/dnsfilter.ts": {
-        "version": "754a2db312f3b5d5d98805aeef34a700bccb35359768c822cab54fd480ce984a",
+        "version": "348391904ff1a55abaa57c22139b816bb6402f458cb19f409e1e9af4cc53fffe",
         "signature": "39c77c7a5cc52b5ba3a3fdc84cb55c08fc59b1b31155bca32d14cb33032ca49a",
         "affectsGlobalScope": false
       },
@@ -1248,7 +1248,7 @@
         [
           {
             "file": "../src_ts/dnsfilter.ts",
-            "start": 2190,
+            "start": 2277,
             "length": 5,
             "code": 2322,
             "category": 1,
@@ -1256,7 +1256,7 @@
           },
           {
             "file": "../src_ts/dnsfilter.ts",
-            "start": 2215,
+            "start": 2302,
             "length": 4,
             "code": 2322,
             "category": 1,
@@ -1264,7 +1264,7 @@
           },
           {
             "file": "../src_ts/dnsfilter.ts",
-            "start": 2248,
+            "start": 2335,
             "length": 5,
             "code": 2322,
             "category": 1,
@@ -1272,7 +1272,7 @@
           },
           {
             "file": "../src_ts/dnsfilter.ts",
-            "start": 2274,
+            "start": 2361,
             "length": 4,
             "code": 2322,
             "category": 1,
@@ -1280,7 +1280,7 @@
           },
           {
             "file": "../src_ts/dnsfilter.ts",
-            "start": 2327,
+            "start": 2414,
             "length": 3,
             "code": 2322,
             "category": 1,
@@ -1288,7 +1288,7 @@
           },
           {
             "file": "../src_ts/dnsfilter.ts",
-            "start": 2351,
+            "start": 2438,
             "length": 4,
             "code": 2322,
             "category": 1,
