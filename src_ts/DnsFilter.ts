@@ -1,27 +1,41 @@
-import { Config } from "./Config";
+import { ConfigImpl, Config } from "./Config";
 import dgram from 'dgram';
 import { PatternMatcher } from "./PatternMatcher";
+import { Server } from "http";
 
 
 const dnsPacket = require('dns-packet');
 
 
 class DnsFilter {
-    private config: Config;
+    private configImpl: ConfigImpl;
     private patternMatcher: PatternMatcher;
+    private config: Config;
+    private server: dgram.Socket;
 
-    constructor(config: Config) {
+    constructor(configImpl: ConfigImpl) {
 
-        this.config = config;
-        this.patternMatcher = new PatternMatcher(config.BlackLists);
+        this.configImpl = configImpl;
+        this.config = configImpl.getConfig();
+        this.patternMatcher = new PatternMatcher(this.config.BlackLists);
 
-        this.instantiateServer();
+        this.server = this.instantiateServer();
+
+        this.configImpl.registerChangeListener((newConfig) => {
+            this.config = newConfig;
+            this.server.close();
+            this.instantiateServer();
+
+        });
+
+
 
 
     }
 
-    private instantiateServer(): void {
+    private instantiateServer(): dgram.Socket {
         const server = dgram.createSocket('udp4');
+
 
         server.on('listening', () => {
             console.log(`Listening on ${this.config.DnsServer.Address} at ${this.config.DnsServer.Port}`);
@@ -33,10 +47,13 @@ class DnsFilter {
 
         server.on('message', async (message, rinfo) => {
 
-            console.log(dnsPacket.decode(message));
+            //console.log(dnsPacket.decode(message));
+
 
             const dnsPack = dnsPacket.decode(message);
             const askedHost = <string>dnsPack.questions[0].name;
+
+            console.log(`${rinfo.address} requests ${askedHost}`);
 
             let response;
             if (this.patternMatcher.isBlocked(askedHost, rinfo.address)) {
@@ -51,6 +68,8 @@ class DnsFilter {
 
 
         server.bind(this.config.DnsServer.Port, this.config.DnsServer.Address);
+
+        return server;
     }
     blockMessage(message: Buffer): Buffer {
         const dnsPack = dnsPacket.decode(message);

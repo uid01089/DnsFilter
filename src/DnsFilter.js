@@ -17,10 +17,16 @@ const dgram_1 = __importDefault(require("dgram"));
 const PatternMatcher_1 = require("./PatternMatcher");
 const dnsPacket = require('dns-packet');
 class DnsFilter {
-    constructor(config) {
-        this.config = config;
-        this.patternMatcher = new PatternMatcher_1.PatternMatcher(config.BlackLists);
-        this.instantiateServer();
+    constructor(configImpl) {
+        this.configImpl = configImpl;
+        this.config = configImpl.getConfig();
+        this.patternMatcher = new PatternMatcher_1.PatternMatcher(this.config.BlackLists);
+        this.server = this.instantiateServer();
+        this.configImpl.registerChangeListener((newConfig) => {
+            this.config = newConfig;
+            this.server.close();
+            this.instantiateServer();
+        });
     }
     instantiateServer() {
         const server = dgram_1.default.createSocket('udp4');
@@ -31,11 +37,12 @@ class DnsFilter {
             console.error(err);
         });
         server.on('message', (message, rinfo) => __awaiter(this, void 0, void 0, function* () {
-            console.log(dnsPacket.decode(message));
+            //console.log(dnsPacket.decode(message));
             const dnsPack = dnsPacket.decode(message);
             const askedHost = dnsPack.questions[0].name;
+            console.log(`${rinfo.address} requests ${askedHost}`);
             let response;
-            if (this.patternMatcher.isBlocked(askedHost, "")) {
+            if (this.patternMatcher.isBlocked(askedHost, rinfo.address)) {
                 response = this.blockMessage(message);
             }
             else {
@@ -44,6 +51,7 @@ class DnsFilter {
             server.send(response, 0, response.length, rinfo.port, rinfo.address);
         }));
         server.bind(this.config.DnsServer.Port, this.config.DnsServer.Address);
+        return server;
     }
     blockMessage(message) {
         const dnsPack = dnsPacket.decode(message);

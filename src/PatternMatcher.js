@@ -13,7 +13,16 @@ class PatternMatcher {
         return isBlocked;
     }
     isSpecificBlocked(name, requester) {
-        const isBlocked = false;
+        let isBlocked = false;
+        const index = Object.keys(this.blackLists).indexOf(requester);
+        if (index != -1) {
+            const specificBlackList = Object.values(this.blackLists)[index];
+            for (const regExp of specificBlackList) {
+                isBlocked = regExp.test(name);
+                break;
+            }
+            return isBlocked;
+        }
         return isBlocked;
     }
     isCommonBlocked(name) {

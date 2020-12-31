@@ -1,3 +1,5 @@
+import { JsonDataStore } from "./js_lib/JsonDataStore";
+
 interface UpstreamServer {
     Address: string;
     Port: number;
@@ -19,7 +21,7 @@ interface Config {
     BlackLists: BlackLists;
 }
 
-const config: Config = {
+const defaultConfig: Config = {
     DnsServer: {
         Address: "127.0.0.1",
         Port: 9530
@@ -29,9 +31,31 @@ const config: Config = {
         Port: 53
     },
     BlackLists: {
-        Common: [/heise.de/],
+        Common: []
     }
 
 }
 
-export { config, Config, BlackLists };
+class ConfigImpl {
+    dataStore: JsonDataStore<Config>;
+
+
+    constructor(config: Config, path: string) {
+        this.dataStore = new JsonDataStore(path, config);
+    }
+
+    public getConfig(): Config {
+        return this.dataStore.read();
+    }
+
+    public registerChangeListener(callBack: (newConfig: Config) => void): void {
+        this.dataStore.registerChangeListener(callBack);
+    }
+
+
+
+}
+
+const config = new ConfigImpl(defaultConfig, "./dnsFilter.conf");
+
+export { config, ConfigImpl, Config, BlackLists };
